@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -30,6 +31,21 @@ func main() {
 
 	fmt.Printf("strs前缀%v \n", func4(strs))
 	fmt.Printf("strs2前缀%v \n", func4(strs2))
+
+	//数组+1
+	arrint := []int{1, 2, 3, 4, 5}
+	fmt.Printf("数组+1的结果%#v \n", func5(arrint))
+
+	//整数数组去重
+	intarr1 := []int{1, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7}
+	intarr := removeDuplicatesInt(intarr1)
+	fmt.Printf("%#v去重结果%#v", intarr1, intarr)
+
+	//两数之和
+	var f []int = []int{1, 5, 2, 4, 8, 6, 9}
+	target := 6
+	c := sumFilter(f, target)
+	fmt.Printf("两数之和等于target的数组值的下标%v", c)
 
 }
 
@@ -114,4 +130,61 @@ func func4(strs []string) string {
 		}
 	}
 	return prefix
+}
+
+// 数组加1
+func func5(arr []int) []int64 {
+	var builder strings.Builder
+
+	for i := 0; i < len(arr); i++ {
+		builder.WriteString(strconv.FormatInt(int64(arr[i]), 10))
+	}
+	result, err := strconv.ParseInt(builder.String(), 10, 64)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	n := result + 1
+
+	var digits []int64
+	for n > 0 {
+		digit := n % 10
+		digits = append(digits, digit)
+		n /= 10
+	}
+
+	// 反转切片（因为数字是从低位到高位存储的）
+	for i, j := 0, len(digits)-1; i < j; i, j = i+1, j-1 {
+		digits[i], digits[j] = digits[j], digits[i]
+	}
+	return digits
+
+}
+
+// 数组去重
+func removeDuplicatesInt(nums []int) []int {
+	//利用mapkey不重复的特性，判断key是否已经保存到map中，保存过的，说明重复了
+	seen := make(map[int]bool)
+	result := []int{}
+	for _, num := range nums {
+		if !seen[num] {
+			seen[num] = true
+			result = append(result, num)
+		}
+	}
+	return result
+}
+
+// 两数之和
+func sumFilter(intarr []int, target int) []int {
+	var result = []int{}
+	for i := 0; i < len(intarr)-1; i++ {
+		for j := i + 1; j < len(intarr); j++ {
+			if target == (intarr[i] + intarr[j]) {
+				result = append(result, i, j)
+			}
+		}
+	}
+	return result
+
 }
