@@ -46,7 +46,6 @@ func main() {
 	target := 6
 	c := sumFilter(f, target)
 	fmt.Printf("两数之和等于target的数组值的下标%v", c)
-
 }
 
 // 只出现一次的数字
