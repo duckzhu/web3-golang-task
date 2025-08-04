@@ -1,0 +1,271 @@
+//用户注册
+curl --location 'localhost:8080/user/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "Alice",
+    "email": "alice@example.com",
+    "password": "123"
+}'
+//result
+{
+    "message": "User registered successfully"
+}
+
+
+//用户登录
+curl --location 'localhost:8080/user/login' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "张三",
+    "password": "123"
+}'
+
+{
+    "msg": "登录通过",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzNzk4MjcsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.J3RVU8tC4djXfsOw1iP75yb_iqhm1P8M3gkbwwU5LuM"
+}
+
+
+//文章新增
+curl --location 'localhost:8080/post/create' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODA3NjEsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.lGui-W6wfGj28z4gheKeKE-vGVad5pjZ_WACJvHLM0Y' \
+--header 'Content-Type: application/json' \
+--data '{
+    "title": "标题3",
+    "content": "内容112131231"
+}'
+
+{
+    "msg": "文章新增成功"
+}
+
+//文章修改
+curl --location 'localhost:8080/post/update' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODIyNzIsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.W8cEIvJildCftZoSYdKyNFH05ZsqKAYk8-eADoKYtsg' \
+--header 'Content-Type: application/json' \
+--data '{
+    "title": "标题3",
+    "content": "修改内容",
+    "id":1
+}'
+
+{
+    "msg": "文章修改成功"
+}
+
+//非作者修改修改
+curl --location 'localhost:8080/post/update' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODQxODUsImlkIjo0LCJ1c2VybmFtZSI6IkFsaWNlIn0.k390xsDnVlA1cSsn58Ug0kDjnRlfRTHO2gqdWbVz09Q' \
+--header 'Content-Type: application/json' \
+--data '{
+    "title": "标题3",
+    "content": "修改内容",
+    "id":1
+}'
+
+{
+    "error": "这个文章只有作者才可以修改"
+}
+
+// 非作者文章删除
+curl --location 'localhost:8080/post/delete' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODQxODUsImlkIjo0LCJ1c2VybmFtZSI6IkFsaWNlIn0.k390xsDnVlA1cSsn58Ug0kDjnRlfRTHO2gqdWbVz09Q' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1
+}'
+{
+    "error": "这个文章只有作者才可以删除"
+}
+
+//删除文章
+curl --location 'localhost:8080/post/delete' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODIyNzIsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.W8cEIvJildCftZoSYdKyNFH05ZsqKAYk8-eADoKYtsg' \
+--header 'Content-Type: application/json' \
+--data '{
+    "id":1
+}'
+
+{
+    "msg": "文章删除成功"
+}
+
+//文章列表获取(根据登录的用户查询用户自己的文章)
+curl --location --request POST 'localhost:8080/post/list' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODIyNzIsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.W8cEIvJildCftZoSYdKyNFH05ZsqKAYk8-eADoKYtsg' \
+--data ''
+
+
+{
+    "data": [
+        {
+            "ID": 1,
+            "CreatedAt": "0001-01-01T00:00:00Z",
+            "UpdatedAt": "0001-01-01T00:00:00Z",
+            "DeletedAt": null,
+            "title": "标题3",
+            "content": "修改内容",
+            "userId": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "username": "",
+                "password": "",
+                "email": "",
+                "createTime": "0001-01-01T00:00:00Z",
+                "updateTime": "0001-01-01T00:00:00Z"
+            },
+            "createTime": "2025-08-04T16:15:41.338+08:00",
+            "updateTime": "2025-08-04T16:52:51.719+08:00"
+        },
+        {
+            "ID": 2,
+            "CreatedAt": "0001-01-01T00:00:00Z",
+            "UpdatedAt": "0001-01-01T00:00:00Z",
+            "DeletedAt": null,
+            "title": "标题2",
+            "content": "内容112131231",
+            "userId": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "username": "",
+                "password": "",
+                "email": "",
+                "createTime": "0001-01-01T00:00:00Z",
+                "updateTime": "0001-01-01T00:00:00Z"
+            },
+            "createTime": "2025-08-04T16:16:21.817+08:00",
+            "updateTime": "2025-08-04T16:16:21.817+08:00"
+        },
+        {
+            "ID": 3,
+            "CreatedAt": "0001-01-01T00:00:00Z",
+            "UpdatedAt": "0001-01-01T00:00:00Z",
+            "DeletedAt": null,
+            "title": "标题3",
+            "content": "内容112131231",
+            "userId": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "username": "",
+                "password": "",
+                "email": "",
+                "createTime": "0001-01-01T00:00:00Z",
+                "updateTime": "0001-01-01T00:00:00Z"
+            },
+            "createTime": "2025-08-04T16:16:27.271+08:00",
+            "updateTime": "2025-08-04T16:16:27.271+08:00"
+        }
+    ],
+    "msg": "文章列表查询成功"
+}
+
+//文章详情查询
+curl --location 'localhost:8080/post/detail' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODIyNzIsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.W8cEIvJildCftZoSYdKyNFH05ZsqKAYk8-eADoKYtsg' \
+--header 'Content-Type: application/json' \
+--data '{"id":1}'
+
+{
+    "data": {
+        "ID": 1,
+        "CreatedAt": "0001-01-01T00:00:00Z",
+        "UpdatedAt": "0001-01-01T00:00:00Z",
+        "DeletedAt": null,
+        "title": "",
+        "content": "",
+        "userId": 0,
+        "User": {
+            "ID": 0,
+            "CreatedAt": "0001-01-01T00:00:00Z",
+            "UpdatedAt": "0001-01-01T00:00:00Z",
+            "DeletedAt": null,
+            "username": "",
+            "password": "",
+            "email": "",
+            "createTime": "0001-01-01T00:00:00Z",
+            "updateTime": "0001-01-01T00:00:00Z"
+        },
+        "createTime": "0001-01-01T00:00:00Z",
+        "updateTime": "0001-01-01T00:00:00Z"
+    },
+    "msg": "文章详情查询成功"
+}
+
+//创建评论
+curl --location 'localhost:8080/comment/create' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODIyNzIsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.W8cEIvJildCftZoSYdKyNFH05ZsqKAYk8-eADoKYtsg' \
+--header 'Content-Type: application/json' \
+--data '{"postId":1,
+"content":"评论内容1"
+}'
+
+{
+    "msg": "评论创建成功"
+}
+
+
+//读取评论（根据用户id）
+
+curl --location --request POST 'localhost:8080/comment/list' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQzODIyNzIsImlkIjo2LCJ1c2VybmFtZSI6IuW8oOS4iSJ9.W8cEIvJildCftZoSYdKyNFH05ZsqKAYk8-eADoKYtsg' \
+--data ''
+
+
+{
+    "data": [
+        {
+            "ID": 1,
+            "CreatedAt": "0001-01-01T00:00:00Z",
+            "UpdatedAt": "0001-01-01T00:00:00Z",
+            "DeletedAt": null,
+            "content": "评论内容1",
+            "UserID": 6,
+            "User": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "username": "",
+                "password": "",
+                "email": "",
+                "createTime": "0001-01-01T00:00:00Z",
+                "updateTime": "0001-01-01T00:00:00Z"
+            },
+            "postId": 1,
+            "Post": {
+                "ID": 0,
+                "CreatedAt": "0001-01-01T00:00:00Z",
+                "UpdatedAt": "0001-01-01T00:00:00Z",
+                "DeletedAt": null,
+                "title": "",
+                "content": "",
+                "userId": 0,
+                "User": {
+                    "ID": 0,
+                    "CreatedAt": "0001-01-01T00:00:00Z",
+                    "UpdatedAt": "0001-01-01T00:00:00Z",
+                    "DeletedAt": null,
+                    "username": "",
+                    "password": "",
+                    "email": "",
+                    "createTime": "0001-01-01T00:00:00Z",
+                    "updateTime": "0001-01-01T00:00:00Z"
+                },
+                "createTime": "0001-01-01T00:00:00Z",
+                "updateTime": "0001-01-01T00:00:00Z"
+            },
+            "createTime": "2025-08-04T17:17:41.956+08:00",
+            "updateTime": "2025-08-04T17:17:41.956+08:00"
+        }
+    ],
+    "msg": "评论查询成功"
+}
